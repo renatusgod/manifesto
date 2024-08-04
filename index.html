@@ -14,12 +14,12 @@
     <div class="row flex-lg-row-reverse align-items-center g-5">
       <div class="col-lg-6 border rounded-3 text-center py-5">
         <span>FALTAM</span>
-        <h1 id="diaAte"></h1>
+        <h1 class="count" id="diaAte">0</h1>
         <span>dias para o dia D 2.0 (03/12/2024)</span>
       </div>
       <div class="col-10 col-sm-8 col-lg-6 border rounded-3 text-center py-5">
         <span>PASSARAM</span>
-        <h1 id="diaD"></h1>
+        <h1 class="count" id="diaD">0</h1>
         <span>dias do dia D (03/12/2024)</span>
       </div>
     </div>
@@ -30,11 +30,13 @@
       <!-- </div> -->
       <div class="col-10 col-sm-8 col-lg-6 border rounded-3 text-center py-5">
         <span>PASSARAM</span>
-        <h1 id="diaPiaChato"></h1>
+        <h1 class="count" id="diaPiaChato">0</h1>
         <span>dias de PURA CHATICE (05/08/2024)</span>
       </div>
     </div>
+    
   </div>
+
 
   <script>
     const second = 1000;
@@ -45,7 +47,8 @@
     function countDays(dataInicial, dataFinal, idElemento) {
       let diff = dataFinal.getTime() - dataInicial.getTime();
 
-      document.getElementById(idElemento).innerText = Math.floor(diff / day);
+      // document.getElementById(idElemento).innerText = Math.floor(diff / day);
+      document.getElementById(idElemento).setAttribute("data-target", Math.floor(diff / day))
     }
 
 
@@ -54,6 +57,24 @@
     countDays(new Date('2024/07/30'), new Date('2024/12/03'), 'diaAte');
 
     countDays(new Date('2024/08/05'), new Date(), 'diaPiaChato');
+
+
+    const counts = document.querySelectorAll(".count");
+    const speed = 45;
+    counts.forEach((count) => {
+      function upDate() {
+        const target = Number(count.getAttribute("data-target"));
+        const counter = Number(count.innerText);
+        const inc = target / speed;
+        if (counter < target) {
+          count.innerText = Math.floor(inc + counter);
+          setTimeout(upDate, 55);
+        } else {
+          count.innerText = target;
+        }
+      }
+      upDate();
+    });
   </script>
 </body>
 </html>
